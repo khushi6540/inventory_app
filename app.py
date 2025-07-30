@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 import pandas as pd
-from plotly import express as px
+import plotly.graph_objects as go
 from utils import load_model, preprocess_input
 
 st.set_page_config(page_title="Inventory Management Dashboard", layout="wide")
@@ -29,19 +29,37 @@ if uploaded_file:
     df["Stock Status"] = df["Overstock"].apply(lambda x: "Overstock" if x > 50 else ("Stockout Risk" if x < 0 else "Optimal"))
 
     st.subheader("📈 Inventory Insights")
-    fig1 = px.histogram(df, x="Stock Status", color="Stock Status", title="Inventory Risk Status")
-    st.plotly_chart(fig1, use_container_width=True)
+    fig1 = go.Figure()
+for status in df["Stock Status"].unique():
+    fig1.add_trace(go.Histogram(
+        x=df[df["Stock Status"] == status]["Stock Status"],
+        name=status
+    ))
+fig1.update_layout(title="Inventory Risk Status", barmode='stack')
+st.plotly_chart(fig1, use_container_width=True)
 
-    fig2 = px.bar(df, x="Product ID", y="Overstock", color="Stock Status", title="Product-wise Overstock Analysis")
-    st.plotly_chart(fig2, use_container_width=True)
+
+    fig2 = go.Figure()
+for status in df["Stock Status"].unique():
+    filtered = df[df["Stock Status"] == status]
+    fig2.add_trace(go.Bar(
+        x=filtered["Product ID"],
+        y=filtered["Overstock"],
+        name=status
+    ))
+fig2.update_layout(title="Product-wise Overstock Analysis")
+st.plotly_chart(fig2, use_container_width=True)
 
    # ✅ Visualization 3: Bar Plot of Predicted Demand by Category
     category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
 
 # Create bar plot
-    fig3 = px.bar(category_demand, x="Category", y="Predicted Demand", title="Total Predicted Demand by Category", color="Category")
-    st.plotly_chart(fig3, use_container_width=True)
+   category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
 
-
-    st.subheader("📊 Demand Prediction Table")
-    st.dataframe(df[["Store ID", "Product ID", "Category", "Region", "Inventory Level", "Predicted Demand", "Stock Status"]])
+fig3 = go.Figure(go.Bar(
+    x=category_demand["Category"],
+    y=category_demand["Predicted Demand"],
+    marker_color="indianred"
+))
+fig3.update_layout(title="Total Predicted Demand by Category")
+st.plotly_chart(fig3, use_container_width=True) "Predicted Demand", "Stock Status"]])
