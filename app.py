@@ -30,36 +30,36 @@ if uploaded_file:
 
     st.subheader("📈 Inventory Insights")
     fig1 = go.Figure()
-for status in df["Stock Status"].unique():
-    fig1.add_trace(go.Histogram(
-        x=df[df["Stock Status"] == status]["Stock Status"],
-        name=status
+    for status in df["Stock Status"].unique():
+        fig1.add_trace(go.Histogram(
+            x=df[df["Stock Status"] == status]["Stock Status"],
+            name=status
+        ))
+    fig1.update_layout(title="Inventory Risk Status", barmode='stack')
+    st.plotly_chart(fig1, use_container_width=True)
+    
+    
+        fig2 = go.Figure()
+    for status in df["Stock Status"].unique():
+        filtered = df[df["Stock Status"] == status]
+        fig2.add_trace(go.Bar(
+            x=filtered["Product ID"],
+            y=filtered["Overstock"],
+            name=status
+        ))
+    fig2.update_layout(title="Product-wise Overstock Analysis")
+    st.plotly_chart(fig2, use_container_width=True)
+    
+       # ✅ Visualization 3: Bar Plot of Predicted Demand by Category
+        category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
+    
+    # Create bar plot
+       category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
+    
+    fig3 = go.Figure(go.Bar(
+        x=category_demand["Category"],
+        y=category_demand["Predicted Demand"],
+        marker_color="indianred"
     ))
-fig1.update_layout(title="Inventory Risk Status", barmode='stack')
-st.plotly_chart(fig1, use_container_width=True)
-
-
-    fig2 = go.Figure()
-for status in df["Stock Status"].unique():
-    filtered = df[df["Stock Status"] == status]
-    fig2.add_trace(go.Bar(
-        x=filtered["Product ID"],
-        y=filtered["Overstock"],
-        name=status
-    ))
-fig2.update_layout(title="Product-wise Overstock Analysis")
-st.plotly_chart(fig2, use_container_width=True)
-
-   # ✅ Visualization 3: Bar Plot of Predicted Demand by Category
-    category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
-
-# Create bar plot
-   category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
-
-fig3 = go.Figure(go.Bar(
-    x=category_demand["Category"],
-    y=category_demand["Predicted Demand"],
-    marker_color="indianred"
-))
-fig3.update_layout(title="Total Predicted Demand by Category")
-st.plotly_chart(fig3, use_container_width=True) "Predicted Demand", "Stock Status"]])
+    fig3.update_layout(title="Total Predicted Demand by Category")
+    st.plotly_chart(fig3, use_container_width=True) "Predicted Demand", "Stock Status"]])
