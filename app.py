@@ -39,7 +39,7 @@ if uploaded_file:
     st.plotly_chart(fig1, use_container_width=True)
     
     
-        fig2 = go.Figure()
+    fig2 = go.Figure()
     for status in df["Stock Status"].unique():
         filtered = df[df["Stock Status"] == status]
         fig2.add_trace(go.Bar(
