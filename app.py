@@ -51,10 +51,10 @@ if uploaded_file:
     st.plotly_chart(fig2, use_container_width=True)
     
        # ✅ Visualization 3: Bar Plot of Predicted Demand by Category
-        category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
+        
     
     # Create bar plot
-       category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
+    category_demand = df.groupby("Category")["Predicted Demand"].sum().reset_index()
     
     fig3 = go.Figure(go.Bar(
         x=category_demand["Category"],
