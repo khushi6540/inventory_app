@@ -62,4 +62,4 @@ if uploaded_file:
         marker_color="indianred"
     ))
     fig3.update_layout(title="Total Predicted Demand by Category")
-    st.plotly_chart(fig3, use_container_width=True) "Predicted Demand", "Stock Status"]])
+    st.plotly_chart((fig3, use_container_width=True) "Predicted Demand", "Stock Status")
