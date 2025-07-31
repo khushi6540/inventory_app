@@ -1,6 +1,6 @@
-streamlit>=1.30.0
+streamlit
 pandas
-plotly>=5.18.0
-xgboost
+plotly
 scikit-learn
 joblib
+xgboost
