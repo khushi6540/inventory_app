@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import plotly as pt
+import plotly.graph_objects as go
 from utils import load_model, preprocess_input
 
 st.set_page_config(page_title="Inventory Management Dashboard", layout="wide")
